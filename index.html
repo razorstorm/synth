@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<title>MIDI Synth by razorstorm</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+		<script type="text/javascript" src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+		<script type="text/javascript" src="js/scrollTo.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/MIDI/base64.js"></script>
+		<script type="text/javascript" src="js/MIDI/midi.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+	</head>
+	<body>
+		<div id="loading">
+			<span>
+				Please wait<br/>
+				<img src="images/ajax-loader.gif"></img>
+			</span>
+		</div>
+		<div id="keyboard">
+			<div id="board">
+				<span>Scroll to octave: </span> 
+				<ul>
+					<button class="btn octaveScroll" octave="1">1</button>
+					<button class="btn octaveScroll" octave="2">2</button>				
+					<button class="btn octaveScroll" octave="3">3</button>
+					<button class="btn octaveScroll" octave="4">4</button>
+					<button class="btn octaveScroll" octave="5">5</button>
+				</ul>
+			</div>
+			<div id="keys">
+				
+			</div>
+		</div>
+
+	</body>
+</html>
