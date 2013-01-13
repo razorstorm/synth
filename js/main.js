@@ -2,6 +2,9 @@ var keyWidth = 42;
 var blackKeyWidth = 26;
 var bitLess = 5;
 var mouseDown = false;
+var chord = false;
+var chordNotes = [];
+var chordIDs = [];
 //todo track the mousedown state. if mosue leaves window, just set mousedown to false.
 $(document).ready(function(){
 	generateKeys();
@@ -12,9 +15,11 @@ $(document).ready(function(){
 		e.preventDefault();
 	}).mouseup(function(){
 		mouseDown = false;
-		$(this).removeClass("depressed");
+		if(!chord)
+			$(this).removeClass("depressed");
 	}).mouseout(function(){
-		$(this).removeClass("depressed");
+		if(!chord)
+			$(this).removeClass("depressed");
 	}).mouseenter(function(){
 		if(mouseDown)
 		{
@@ -28,9 +33,11 @@ $(document).ready(function(){
 		e.preventDefault();
 	}).mouseup(function(){
 		mouseDown = false;
-		$(this).removeClass("depressed");
+		if(!chord)
+			$(this).removeClass("depressed");
 	}).mouseout(function(){
-		$(this).removeClass("depressed");
+		if(!chord)
+			$(this).removeClass("depressed");
 	}).mouseenter(function(){
 		if(mouseDown)
 		{
@@ -44,6 +51,25 @@ $(document).ready(function(){
 		scrollToOctave(octaveNum);
 	});
 	
+	$('#startChordButton').click(function()
+	{
+		chord = true;
+		$(this).addClass("btn-success");
+	});
+	
+	$('#endChordButton').click(function()
+	{
+		$('#startChordButton').removeClass("btn-success");
+		chord = false;
+		for( index in chordNotes)
+		{
+			startNote(chordNotes[index]);
+			chordNotes[index].removeClass("depressed");
+		}
+		chordIDs = [];
+		chordNotes = [];
+	});
+	
 	MIDI.loadPlugin({
 		instrument: "acoustic_grand_piano", // or 1 (default)
 		callback: function() {removeLoadingScreen(); }
@@ -52,6 +78,11 @@ $(document).ready(function(){
 	$("#keyboard").scrollLeft(14*keyWidth); //scroll to C3
 	
 });
+
+function loadInstrument(instrument)
+{
+
+}
 
 function scrollToOctave(octaveNum)
 {
@@ -64,7 +95,29 @@ function removeLoadingScreen()
 function startNote(noteDOMElement)
 {
 	noteDOMElement.addClass("depressed");
-	MIDI.noteOn(0,noteDOMElement.attr('midiNumber'),100);
+	if(chord)
+	{
+		//todo: update 2 arrays
+		if($.inArray(noteDOMElement.attr('id'),chordIDs)>-1)
+		{
+			noteDOMElement.removeClass("chord");
+			noteDOMElement.removeClass("depressed");
+			
+			chordIDs.splice($.inArray(noteDOMElement.attr('id'),chordIDs),1);
+			chordNotes.splice($.inArray(noteDOMElement.attr('id'),chordIDs),1);
+		}
+		else
+		{
+			noteDOMElement.addClass("chord");
+			chordNotes.push(noteDOMElement);
+			chordIDs.push(noteDOMElement.attr('id'));
+		}
+	}
+	else
+	{
+		noteDOMElement.removeClass("chord");
+		MIDI.noteOn(0,noteDOMElement.attr('midiNumber'),100);
+	}
 }
 
 function stopAllNotes()
