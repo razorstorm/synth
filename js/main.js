@@ -48,6 +48,8 @@ $(document).ready(function(){
 	$('.octaveScroll').click(function(){
 		var octaveNum = $(this).attr("octave");
 		
+		$('.octaveScroll.btn-info').removeClass("btn-info");
+		$(this).addClass("btn-info");
 		scrollToOctave(octaveNum);
 	});
 	
